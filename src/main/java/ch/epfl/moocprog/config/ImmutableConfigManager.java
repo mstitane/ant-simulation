@@ -1,13 +1,13 @@
 package ch.epfl.moocprog.config;
 
-import ch.epfl.moocprog.utils.Time;
-import ch.epfl.moocprog.utils.Pair;
-import ch.epfl.moocprog.utils.Utils;
-
-import java.io.*;
+import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import ch.epfl.moocprog.utils.Pair;
+import ch.epfl.moocprog.utils.Time;
+import ch.epfl.moocprog.utils.Utils;
 
 /**
  * Classe concrète contenant la configuration de la simulation.

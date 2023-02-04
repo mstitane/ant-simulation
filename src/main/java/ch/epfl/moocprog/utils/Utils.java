@@ -1,9 +1,12 @@
 package ch.epfl.moocprog.utils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import ch.epfl.moocprog.Positionable;
 import ch.epfl.moocprog.random.UniformDistribution;
-
-import java.util.*;
 
 /**
  * Classe utilitaire fournissant diverse méthodes

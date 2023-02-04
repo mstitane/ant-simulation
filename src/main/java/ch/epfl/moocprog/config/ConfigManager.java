@@ -1,9 +1,9 @@
 package ch.epfl.moocprog.config;
 
-import ch.epfl.moocprog.utils.Time;
-import ch.epfl.moocprog.utils.Pair;
-
 import java.util.Map;
+
+import ch.epfl.moocprog.utils.Pair;
+import ch.epfl.moocprog.utils.Time;
 
 /**
  * Interface représentant la configuration de la simulation.

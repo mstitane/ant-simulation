@@ -1,21 +1,21 @@
 package ch.epfl.moocprog.tests;
 
-import ch.epfl.moocprog.Environment;
-import ch.epfl.moocprog.Food;
-import ch.epfl.moocprog.app.ApplicationInitializer;
-import ch.epfl.moocprog.config.ImmutableConfigManager;
 import java.io.File;
 import java.util.Objects;
+
+import ch.epfl.moocprog.Environment;
+import ch.epfl.moocprog.Food;
+import ch.epfl.moocprog.Positionable;
+import ch.epfl.moocprog.ToricPosition;
+import ch.epfl.moocprog.app.ApplicationInitializer;
+import ch.epfl.moocprog.config.ImmutableConfigManager;
+import ch.epfl.moocprog.utils.Time;
+import ch.epfl.moocprog.utils.Vec2d;
 
 import static ch.epfl.moocprog.app.Context.getConfig;
 import static ch.epfl.moocprog.config.Config.FOOD_GENERATOR_DELAY;
 import static ch.epfl.moocprog.config.Config.WORLD_HEIGHT;
 import static ch.epfl.moocprog.config.Config.WORLD_WIDTH;
-
-import ch.epfl.moocprog.utils.Time;
-import ch.epfl.moocprog.utils.Vec2d;
-import ch.epfl.moocprog.ToricPosition;
-import ch.epfl.moocprog.Positionable;
 public class Main {
 
     public static void main(String[] args) {

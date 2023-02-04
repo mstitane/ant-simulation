@@ -6,8 +6,8 @@ import ch.epfl.moocprog.config.ConfigManager;
  */
 public final class Context {
     private static Application THE_APP;
-    public static String CONFIG_PATH= "app.cfg";
-    public static String INIT_PATH= "config.cfg";
+    public static String CONFIG_PATH= Context.class.getResource("/app.cfg").getFile();
+    public static String INIT_PATH= Context.class.getResource("/config.cfg").getFile();
 
     /*package*/
     static void initializeApplication(Application application) {

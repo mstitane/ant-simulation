@@ -1,7 +1,5 @@
 package ch.epfl.moocprog;
 
-import java.util.StringJoiner;
-
 public class Positionable {
 
     private ToricPosition position;

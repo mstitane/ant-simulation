@@ -1,8 +1,5 @@
 package ch.epfl.moocprog.gfx;
 
-import static ch.epfl.moocprog.app.Context.getApplication;
-import static ch.epfl.moocprog.config.Config.*;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,9 +15,9 @@ import java.util.regex.Pattern;
 import ch.epfl.moocprog.Anthill;
 import ch.epfl.moocprog.Environment;
 import ch.epfl.moocprog.Termite;
-import ch.epfl.moocprog.utils.Time;
 import ch.epfl.moocprog.ToricPosition;
 import ch.epfl.moocprog.app.Context;
+import ch.epfl.moocprog.utils.Time;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -38,6 +35,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import static ch.epfl.moocprog.app.Context.CONFIG_PATH;
+import static ch.epfl.moocprog.app.Context.getApplication;
+import static ch.epfl.moocprog.config.Config.TIME_FACTOR;
 
 public final class JavaFXContainer extends javafx.application.Application {
 	
@@ -125,7 +126,7 @@ public final class JavaFXContainer extends javafx.application.Application {
 	
 	
 	private void fillPropertyMap(Map<String, ObjectProperty<String>> propertiesMap,GridPane configPane) {
-		File configFile = new File("app.cfg");
+		File configFile = new File(CONFIG_PATH);
 		if (configFile != null) {
 
 			try (BufferedReader br = new BufferedReader(new FileReader(configFile))) {

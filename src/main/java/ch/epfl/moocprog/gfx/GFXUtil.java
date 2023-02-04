@@ -11,7 +11,7 @@ class GFXUtil {
         throw new AssertionError("Pas d'instance de GFXUtil pour vous !");
     }
     
-    public static String RES_PATH = "projet/ch/epfl/moocprog/gfx/res/" ;
+    public static String RES_PATH = GFXUtil.class.getResource("/res/").getFile() ;
     
     static Image loadSprite(String filename) {
         try (FileInputStream fis = new FileInputStream(filename)) {

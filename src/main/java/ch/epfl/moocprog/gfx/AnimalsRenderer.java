@@ -1,7 +1,11 @@
 package ch.epfl.moocprog.gfx;
 
-import ch.epfl.moocprog.*;
-import javafx.scene.canvas.Canvas;
+import ch.epfl.moocprog.Animal;
+import ch.epfl.moocprog.AnimalVisitor;
+import ch.epfl.moocprog.AntSoldier;
+import ch.epfl.moocprog.AntWorker;
+import ch.epfl.moocprog.RenderingMedia;
+import ch.epfl.moocprog.Termite;
 
 final class AnimalsRenderer implements AnimalVisitor {
     private final AntWorkerRenderer antWorkerRenderer;
