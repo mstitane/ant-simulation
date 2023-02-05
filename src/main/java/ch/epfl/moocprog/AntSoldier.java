@@ -9,4 +9,9 @@ public final class AntSoldier extends Ant {
     public void accept(AnimalVisitor visitor, RenderingMedia s) {
         visitor.visit(this, s);
     }
+
+    @Override
+    public double getSpeed() {
+        return 0;
+    }
 }

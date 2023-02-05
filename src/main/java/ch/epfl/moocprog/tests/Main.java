@@ -6,6 +6,7 @@ import java.util.Objects;
 import ch.epfl.moocprog.Environment;
 import ch.epfl.moocprog.Food;
 import ch.epfl.moocprog.Positionable;
+import ch.epfl.moocprog.Termite;
 import ch.epfl.moocprog.ToricPosition;
 import ch.epfl.moocprog.app.ApplicationInitializer;
 import ch.epfl.moocprog.config.ImmutableConfigManager;
@@ -60,7 +61,7 @@ public class Main {
         Food f1 = new Food(tp2, 4.7);
         Food f2 = new Food(tp3, 6.7);
         System.out.println();
-        System.out.println("Some tests for Food");
+        System.out.println("===================================== étape 3 : Some tests for Food ===================================== ");
         System.out.println("Display : ");
         System.out.println(f1);
         System.out.println("Initial : " + f1.getQuantity()
@@ -82,6 +83,15 @@ public class Main {
         env.update(foodGenDelta);
         System.out.println("After update : " + env.getFoodQuantities());
 
+
+        System.out.println("===========================// Quelques tests pour l'étape 5 ================================");
+        System.out.println ("A termite before update :");
+        Termite t1 = new Termite(new ToricPosition(20, 30));
+        System.out.println(t1);
+        env.addAnimal(t1);
+        env.update(Time.fromSeconds(1.));
+        System.out.println("The same termite after one update :");
+        System.out.println(t1);
 
     }
 }
