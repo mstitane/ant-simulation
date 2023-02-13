@@ -13,7 +13,7 @@ import static ch.epfl.moocprog.config.Config.ANIMAL_NEXT_ROTATION_DELAY;
 
 public abstract class Animal extends Positionable {
     private double direction;
-    private int hitpoints;
+    private final int hitpoints;
     private Time lifespan;
     private Time rotationDelay = Time.ZERO;
 
@@ -26,11 +26,10 @@ public abstract class Animal extends Positionable {
 
     public abstract void accept(AnimalVisitor visitor, RenderingMedia s);
 
-    public void update(AnimalEnvironmentView env, Time dt) {
+    public final void update(AnimalEnvironmentView env, Time dt) {
         double lifeSpanFactor = getConfig().getDouble(ANIMAL_LIFESPAN_DECREASE_FACTOR);
         this.lifespan = lifespan.minus(dt.times(lifeSpanFactor));
-        if (!isDead())
-            move(dt);
+        this.specificBehaviorDispatch(env, dt);
     }
 
     protected final void move(Time dt) {
@@ -80,11 +79,9 @@ public abstract class Animal extends Positionable {
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append(getPosition().toString()).append("\n");
-        str.append(String.format("Speed : %.1f", getSpeed())).append("\n");
-        str.append(String.format("HitPoints : %d", hitpoints)).append("\n");
-        str.append(String.format("LifeSpan : %.6f", lifespan.toSeconds()));
-        return str.toString();
+        return getPosition().toString() + String.format("%nSpeed : %.1f", getSpeed()) + String.format("%nHitPoints : %d", hitpoints) + String.format("%nLifeSpan : %.6f",
+                lifespan.toSeconds());
     }
+
+    abstract void specificBehaviorDispatch(AnimalEnvironmentView env, Time dt);
 }

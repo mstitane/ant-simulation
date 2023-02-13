@@ -3,6 +3,8 @@ package ch.epfl.moocprog.tests;
 import java.io.File;
 import java.util.Objects;
 
+import ch.epfl.moocprog.AntWorker;
+import ch.epfl.moocprog.Anthill;
 import ch.epfl.moocprog.Environment;
 import ch.epfl.moocprog.Food;
 import ch.epfl.moocprog.Positionable;
@@ -93,5 +95,29 @@ public class Main {
         System.out.println("The same termite after one update :");
         System.out.println(t1);
 
+        System.out.println("===========================// Quelques tests pour l'étape 7 ================================");
+        Anthill anthill = new Anthill(new ToricPosition(10, 20));
+        System.out.println("Displaying an anthill");
+        System.out.println(anthill);
+        env = new Environment();
+        env.addAnthill(anthill);
+        Food f3 = new Food(new ToricPosition(15, 15), 20.);
+        Food f4 = new Food(new ToricPosition(40, 40), 15.);
+        env.addFood(f3);
+        env.addFood(f4);
+        System.out.println();
+        AntWorker worker = new AntWorker(new ToricPosition(5, 10), anthill.getAnthillId());
+        System.out.println("Displaying a worker ant");
+        System.out.println(worker +"\n" );
+        System.out.print("Can the worker ant drop some food in its anthill : ");
+        // true car la fourmi est assez proche de sa fourmilière
+        System.out.println(env.dropFood(worker));
+        System.out.println("Displaying the anthill after the antworker dropped food:");
+        // aucun changement car la fourmi ne transporte pas de nourriture
+        System.out.println(anthill);
+        System.out.println("\nClosest food seen by the worker ant:" );
+        // la fourmi ne « voit » que f3
+        // si l'on n'avait que f4, l'appel suivant retournerait null
+        System.out.println(env.getClosestFoodForAnt(worker));
     }
 }
