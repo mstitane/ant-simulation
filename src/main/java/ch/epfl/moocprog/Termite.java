@@ -33,4 +33,14 @@ public final class Termite extends Animal {
     void specificBehaviorDispatch(AnimalEnvironmentView env, Time dt) {
 
     }
+
+    @Override
+    RotationProbability computeRotationProbsDispatch(AnimalEnvironmentView env) {
+        return null;
+    }
+
+    @Override
+    protected void afterMoveDispatch(AnimalEnvironmentView env, Time dt) {
+
+    }
 }

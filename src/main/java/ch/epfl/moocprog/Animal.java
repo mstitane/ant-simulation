@@ -29,31 +29,33 @@ public abstract class Animal extends Positionable {
     public final void update(AnimalEnvironmentView env, Time dt) {
         double lifeSpanFactor = getConfig().getDouble(ANIMAL_LIFESPAN_DECREASE_FACTOR);
         this.lifespan = lifespan.minus(dt.times(lifeSpanFactor));
-        this.specificBehaviorDispatch(env, dt);
+        if (!isDead())
+            specificBehaviorDispatch(env, dt);
     }
 
-    protected final void move(Time dt) {
-        rotate(dt);
+    protected final void move(AnimalEnvironmentView env, Time dt) {
+        rotate(env, dt);
         Vec2d vec2d = Vec2d.fromAngle(getDirection()).scalarProduct(dt.toSeconds() * getSpeed());
         setPosition(getPosition().add(vec2d));
+        afterMoveDispatch(env, dt);
     }
 
-    private void rotate(Time dt) {
+    private void rotate(AnimalEnvironmentView env, Time dt) {
         Time delay = getConfig().getTime(ANIMAL_NEXT_ROTATION_DELAY);
         this.rotationDelay = this.rotationDelay.plus(dt);
         while (rotationDelay.compareTo(delay) >= 0) {
             this.rotationDelay = this.rotationDelay.minus(delay);
-            RotationProbability rotationProbs = computeRotationProbs();
+            RotationProbability rotationProbs = computeRotationProbsDispatch(env);
             double value = Utils.pickValue(rotationProbs.getAngles(), rotationProbs.getProbabilities());
             setDirection(getDirection() + value);
         }
     }
 
     public final boolean isDead() {
-        return hitpoints <= 0 || lifespan.toMilliseconds() <= 0;
+        return getHitpoints() <= 0 || Time.ZERO.compareTo(getLifespan()) >= 0;
     }
 
-    protected RotationProbability computeRotationProbs() {
+    protected final RotationProbability computeDefaultRotationProbs() {
         double[] angles = Stream.of(-180, -100, -55, -25, -10, 0, 10, 25, 55, 100, 180).map(Math::toRadians).mapToDouble(Double::doubleValue).toArray();
         double[] probs = new double[] { 0.0000, 0.0000, 0.0005, 0.0010, 0.0050, 0.9870, 0.0050, 0.0010, 0.0005, 0.0000, 0.0000 };
         return new RotationProbability(angles, probs);
@@ -84,4 +86,8 @@ public abstract class Animal extends Positionable {
     }
 
     abstract void specificBehaviorDispatch(AnimalEnvironmentView env, Time dt);
+
+    abstract RotationProbability computeRotationProbsDispatch(AnimalEnvironmentView env);
+
+    protected abstract void afterMoveDispatch(AnimalEnvironmentView env, Time dt);
 }

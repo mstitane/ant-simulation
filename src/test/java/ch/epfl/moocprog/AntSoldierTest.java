@@ -46,4 +46,17 @@ public class AntSoldierTest {
         Animal animal = new AntSoldier(new ToricPosition(10, 10), 0, Time.fromSeconds(66), Uid.createUid());
         Assertions.assertTrue(animal.isDead());
     }
+
+    @Test
+    void spreadingPheromonesCorrectly() {
+
+        Environment env = new Environment();
+        ToricPosition p1 = new ToricPosition(200, 100);
+        ToricPosition p2 = new ToricPosition(500, 250);
+        Ant animal = new AntWorker(p1, 10, Time.fromSeconds(10), Uid.createUid());
+        env.addAnt(animal);
+        animal.setDirection(0.4636476090008061);
+        animal.update(env, Time.fromSeconds(1));
+        Assertions.assertEquals(new ToricPosition(290.3, 145.2).toString(), animal.getPosition().toString());
+    }
 }

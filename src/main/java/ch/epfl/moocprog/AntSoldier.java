@@ -26,7 +26,7 @@ public final class AntSoldier extends Ant {
 
     @Override
     public double getSpeed() {
-        return config.getDouble(ANT_SOLDIER_SPEED);
+        return 1 + config.getDouble(ANT_SOLDIER_SPEED);
     }
 
     @Override
@@ -36,6 +36,8 @@ public final class AntSoldier extends Ant {
 
     protected void seekForEnemies(AntEnvironmentView env, Time dt) {
         if (!isDead())
-            move(dt);
+            move(env, dt);
     }
+
+
 }
