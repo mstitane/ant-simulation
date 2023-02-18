@@ -25,25 +25,25 @@ public class AntSoldierTest {
 
     @Test
     void attributesAreCorrectlyInitialized() {
-        Animal animal = new AntSoldier(new ToricPosition(10, 10), 15, Time.ZERO, Uid.createUid());
-        Assertions.assertEquals(15, animal.getHitpoints());
+        Animal animal = new AntSoldier(new ToricPosition(10, 10), Uid.createUid());
+        Assertions.assertEquals(500, animal.getHitpoints());
     }
 
     @Test
     void isDeadReturnsTrueForNegativeHpOrLs() {
-        Animal animal = new AntSoldier(new ToricPosition(10, 10), -15, Time.fromSeconds(110), Uid.createUid());
+        Animal animal = new AntSoldier(new ToricPosition(10, 10), Uid.createUid());
         Assertions.assertTrue(animal.isDead());
     }
 
     @Test
     void hitpointsAndLifespanAreCorrect() {
-        Animal animal = new AntSoldier(new ToricPosition(10, 10), 225, Time.fromSeconds(110), Uid.createUid());
+        Animal animal = new AntSoldier(new ToricPosition(10, 10), Uid.createUid());
         Assertions.assertEquals(225, animal.getHitpoints());
     }
 
     @Test
     void isDeadReturnsTrueForNullHpOrLs() {
-        Animal animal = new AntSoldier(new ToricPosition(10, 10), 0, Time.fromSeconds(66), Uid.createUid());
+        Animal animal = new AntSoldier(new ToricPosition(10, 10), Uid.createUid());
         Assertions.assertTrue(animal.isDead());
     }
 
@@ -53,7 +53,7 @@ public class AntSoldierTest {
         Environment env = new Environment();
         ToricPosition p1 = new ToricPosition(200, 100);
         ToricPosition p2 = new ToricPosition(500, 250);
-        Ant animal = new AntWorker(p1, 10, Time.fromSeconds(10), Uid.createUid());
+        Ant animal = new AntSoldier(p1, Uid.createUid());
         env.addAnt(animal);
         animal.setDirection(0.4636476090008061);
         animal.update(env, Time.fromSeconds(1));

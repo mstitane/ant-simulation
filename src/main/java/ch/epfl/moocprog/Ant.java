@@ -1,6 +1,5 @@
 package ch.epfl.moocprog;
 
-import ch.epfl.moocprog.app.Context;
 import ch.epfl.moocprog.config.Config;
 import ch.epfl.moocprog.config.ConfigManager;
 import ch.epfl.moocprog.utils.Time;
@@ -12,11 +11,20 @@ public abstract class Ant extends Animal {
 
     private final Uid anthillId;
     private ToricPosition lastPos;
+    private AntRotationProbabilityModel probModel;
 
     protected Ant(ToricPosition toricPosition, int hitPoints, Time lifespan, Uid uid) {
         super(toricPosition, hitPoints, lifespan);
         this.anthillId = uid;
         lastPos = toricPosition;
+        probModel = new PheromoneRotationProbabilityModel();
+    }
+
+    protected Ant(ToricPosition toricPosition, int hitPoints, Time lifespan, Uid uid, AntRotationProbabilityModel probModel) {
+        super(toricPosition, hitPoints, lifespan);
+        this.anthillId = uid;
+        lastPos = toricPosition;
+        this.probModel = probModel;
     }
 
     @Override
@@ -42,7 +50,7 @@ public abstract class Ant extends Animal {
     }
 
     public final RotationProbability computeRotationProbs(AntEnvironmentView env) {
-        return computeDefaultRotationProbs();
+        return probModel.computeRotationProbs(computeDefaultRotationProbs(), getPosition(), getDirection(), env);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package ch.epfl.moocprog;
 
-import ch.epfl.moocprog.app.Context;
 import ch.epfl.moocprog.config.Config;
 import ch.epfl.moocprog.utils.Time;
 

@@ -14,16 +14,15 @@ public final class AntWorker extends Ant {
     private static final ConfigManager config = getConfig();
     private double foodQuantity;
 
-    public AntWorker(ToricPosition toricPosition, Uid uid) {
-        super(toricPosition, config.getInt(ANT_WORKER_HP), config.getTime(ANT_WORKER_LIFESPAN), uid);
+    public AntWorker(ToricPosition tp, Uid hillId) {
+        super(tp, getConfig().getInt(ANT_WORKER_HP), getConfig().getTime(ANT_WORKER_LIFESPAN), hillId);
         this.foodQuantity = 0;
     }
 
-    public AntWorker(ToricPosition toricPosition, int hitPoints, Time lifespan, Uid uid) {
-        super(toricPosition, hitPoints, lifespan, uid);
+    public AntWorker(ToricPosition tp, Uid hillId, AntRotationProbabilityModel probabilityModel) {
+        super(tp, getConfig().getInt(ANT_WORKER_HP), getConfig().getTime(ANT_WORKER_LIFESPAN), hillId, probabilityModel);
         this.foodQuantity = 0;
     }
-
 
     @Override
     public void accept(AnimalVisitor visitor, RenderingMedia s) {
