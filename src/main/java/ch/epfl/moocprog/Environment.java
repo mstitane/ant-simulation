@@ -14,10 +14,11 @@ import ch.epfl.moocprog.utils.Time;
 import ch.epfl.moocprog.utils.Utils;
 
 import static ch.epfl.moocprog.app.Context.getConfig;
+import static ch.epfl.moocprog.config.Config.ANIMAL_SIGHT_DISTANCE;
 import static ch.epfl.moocprog.config.Config.ANT_MAX_PERCEPTION_DISTANCE;
 import static ch.epfl.moocprog.config.Config.ANT_SMELL_MAX_DISTANCE;
 
-public final class Environment implements FoodGeneratorEnvironmentView, AnimalEnvironmentView, AnthillEnvironmentView, AntWorkerEnvironmentView {
+public final class Environment implements FoodGeneratorEnvironmentView, AnimalEnvironmentView, AnthillEnvironmentView, AntWorkerEnvironmentView, TermiteEnvironmentView {
     private FoodGenerator foodGenerator;
     private List<Food> foods;
     private List<Animal> animals;
@@ -187,7 +188,34 @@ public final class Environment implements FoodGeneratorEnvironmentView, AnimalEn
     }
 
     @Override
+    public RotationProbability selectComputeRotationProbsDispatch(Termite termite) {
+        return termite.computeRotationProbs(this);
+    }
+
+    @Override
     public void selectAfterMoveDispatch(Ant ant, Time dt) {
         ant.afterMoveAnt(this, dt);
+    }
+
+    @Override
+    public void selectAfterMoveDispatch(Termite termite, Time dt) {
+        termite.afterMoveTermite(this, dt);
+    }
+
+    @Override
+    public void selectSpecificBehaviorDispatch(Termite termite, Time dt) {
+        termite.seekForEnemies(this, dt);
+    }
+
+    @Override
+    public List<Animal> getVisibleEnemiesForAnimal(Animal from) {
+        double sightDistance = getConfig().getDouble(ANIMAL_SIGHT_DISTANCE);
+        return animals.stream().filter(a -> a.isEnemy(from) && a.getPosition().toricDistance(from.getPosition()) <= sightDistance).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isVisibleFromEnemies(Animal from) {
+        double sightDistance = getConfig().getDouble(ANIMAL_SIGHT_DISTANCE);
+        return animals.stream().anyMatch(a -> a.isEnemy(from) && a.getPosition().toricDistance(from.getPosition()) <= sightDistance);
     }
 }

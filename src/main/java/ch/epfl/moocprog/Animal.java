@@ -15,13 +15,16 @@ public abstract class Animal extends Positionable {
     private double direction;
     private final int hitpoints;
     private Time lifespan;
-    private Time rotationDelay = Time.ZERO;
+    private Time rotationDelay;
+    private Time attackDuration;
 
     protected Animal(ToricPosition toricPosition, int hitPoints, Time lifespan) {
         super(toricPosition);
         this.direction = UniformDistribution.getValue(0, 2 * Math.PI);
         this.hitpoints = hitPoints;
         this.lifespan = lifespan;
+        rotationDelay = Time.ZERO;
+        attackDuration = Time.ZERO;
     }
 
     public abstract void accept(AnimalVisitor visitor, RenderingMedia s);
@@ -90,4 +93,16 @@ public abstract class Animal extends Positionable {
     abstract RotationProbability computeRotationProbsDispatch(AnimalEnvironmentView env);
 
     protected abstract void afterMoveDispatch(AnimalEnvironmentView env, Time dt);
+
+    abstract boolean isEnemy(Animal entity);
+
+    abstract boolean isEnemyDispatch(Termite other);
+
+    abstract boolean isEnemyDispatch(Ant other);
+
+    abstract int getMinAttackStrength();
+
+    abstract int getMaxAttackStrength();
+
+    abstract Time getMaxAttackDuration();
 }

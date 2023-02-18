@@ -4,11 +4,12 @@ import ch.epfl.moocprog.config.ConfigManager;
 import ch.epfl.moocprog.utils.Time;
 
 import static ch.epfl.moocprog.app.Context.getConfig;
+import static ch.epfl.moocprog.config.Config.ANT_SOLDIER_ATTACK_DURATION;
 import static ch.epfl.moocprog.config.Config.ANT_SOLDIER_HP;
 import static ch.epfl.moocprog.config.Config.ANT_SOLDIER_LIFESPAN;
+import static ch.epfl.moocprog.config.Config.ANT_SOLDIER_MAX_STRENGTH;
+import static ch.epfl.moocprog.config.Config.ANT_SOLDIER_MIN_STRENGTH;
 import static ch.epfl.moocprog.config.Config.ANT_SOLDIER_SPEED;
-import static ch.epfl.moocprog.config.Config.ANT_WORKER_HP;
-import static ch.epfl.moocprog.config.Config.ANT_WORKER_LIFESPAN;
 
 public final class AntSoldier extends Ant {
     private static final ConfigManager config = getConfig();
@@ -41,5 +42,19 @@ public final class AntSoldier extends Ant {
             move(env, dt);
     }
 
+    @Override
+    int getMinAttackStrength() {
+        return config.getInt(ANT_SOLDIER_MIN_STRENGTH);
+    }
+
+    @Override
+    int getMaxAttackStrength() {
+        return config.getInt(ANT_SOLDIER_MAX_STRENGTH);
+    }
+
+    @Override
+    Time getMaxAttackDuration() {
+        return config.getTime(ANT_SOLDIER_ATTACK_DURATION);
+    }
 
 }

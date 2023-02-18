@@ -66,4 +66,19 @@ public abstract class Ant extends Animal {
     protected final void afterMoveDispatch(AnimalEnvironmentView env, Time dt) {
         env.selectAfterMoveDispatch(this, dt);
     }
+
+    @Override
+    boolean isEnemy(Animal animal) {
+        return !this.isDead() && !animal.isDead() && animal.isEnemyDispatch(this);
+    }
+
+    @Override
+    protected final boolean isEnemyDispatch(Termite other) {
+        return true;
+    }
+
+    @Override
+    protected final boolean isEnemyDispatch(Ant other) {
+        return false;
+    }
 }

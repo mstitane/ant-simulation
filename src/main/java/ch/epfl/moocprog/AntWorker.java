@@ -5,8 +5,11 @@ import ch.epfl.moocprog.utils.Time;
 
 import static ch.epfl.moocprog.app.Context.getConfig;
 import static ch.epfl.moocprog.config.Config.ANT_MAX_FOOD;
+import static ch.epfl.moocprog.config.Config.ANT_WORKER_ATTACK_DURATION;
 import static ch.epfl.moocprog.config.Config.ANT_WORKER_HP;
 import static ch.epfl.moocprog.config.Config.ANT_WORKER_LIFESPAN;
+import static ch.epfl.moocprog.config.Config.ANT_WORKER_MAX_STRENGTH;
+import static ch.epfl.moocprog.config.Config.ANT_WORKER_MIN_STRENGTH;
 import static ch.epfl.moocprog.config.Config.ANT_WORKER_SPEED;
 
 public final class AntWorker extends Ant {
@@ -69,5 +72,20 @@ public final class AntWorker extends Ant {
     @Override
     void specificBehaviorDispatch(AnimalEnvironmentView env, Time dt) {
         env.selectSpecificBehaviorDispatch(this, dt);
+    }
+
+    @Override
+    int getMinAttackStrength() {
+        return config.getInt(ANT_WORKER_MIN_STRENGTH);
+    }
+
+    @Override
+    int getMaxAttackStrength() {
+        return config.getInt(ANT_WORKER_MAX_STRENGTH);
+    }
+
+    @Override
+    Time getMaxAttackDuration() {
+        return config.getTime(ANT_WORKER_ATTACK_DURATION);
     }
 }
