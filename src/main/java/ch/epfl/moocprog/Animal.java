@@ -1,5 +1,6 @@
 package ch.epfl.moocprog;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import ch.epfl.moocprog.random.UniformDistribution;
@@ -12,11 +13,16 @@ import static ch.epfl.moocprog.config.Config.ANIMAL_LIFESPAN_DECREASE_FACTOR;
 import static ch.epfl.moocprog.config.Config.ANIMAL_NEXT_ROTATION_DELAY;
 
 public abstract class Animal extends Positionable {
+    public enum State {
+        ATTACK, IDLE, ESCAPING
+    }
+
     private double direction;
-    private final int hitpoints;
+    private int hitpoints;
     private Time lifespan;
     private Time rotationDelay;
     private Time attackDuration;
+    private State state;
 
     protected Animal(ToricPosition toricPosition, int hitPoints, Time lifespan) {
         super(toricPosition);
@@ -25,6 +31,7 @@ public abstract class Animal extends Positionable {
         this.lifespan = lifespan;
         rotationDelay = Time.ZERO;
         attackDuration = Time.ZERO;
+        this.state = State.IDLE;
     }
 
     public abstract void accept(AnimalVisitor visitor, RenderingMedia s);
@@ -32,8 +39,25 @@ public abstract class Animal extends Positionable {
     public final void update(AnimalEnvironmentView env, Time dt) {
         double lifeSpanFactor = getConfig().getDouble(ANIMAL_LIFESPAN_DECREASE_FACTOR);
         this.lifespan = lifespan.minus(dt.times(lifeSpanFactor));
-        if (!isDead())
+        switch (state) {
+        case ATTACK:
+            attack(env, dt);
+            break;
+        case ESCAPING:
+            escape(env, dt);
+            break;
+        default:
             specificBehaviorDispatch(env, dt);
+        }
+    }
+
+    private void attack(AnimalEnvironmentView env, Time dt) {
+        if (canAttack())
+            fight(env, dt);
+        else {
+            this.setState(State.ESCAPING);
+            attackDuration = Time.ZERO;
+        }
     }
 
     protected final void move(AnimalEnvironmentView env, Time dt) {
@@ -85,7 +109,7 @@ public abstract class Animal extends Positionable {
     @Override
     public String toString() {
         return getPosition().toString() + String.format("%nSpeed : %.1f", getSpeed()) + String.format("%nHitPoints : %d", hitpoints) + String.format("%nLifeSpan : %.6f",
-                lifespan.toSeconds());
+                lifespan.toSeconds()) + String.format("%nState : %s", state.toString());
     }
 
     abstract void specificBehaviorDispatch(AnimalEnvironmentView env, Time dt);
@@ -105,4 +129,46 @@ public abstract class Animal extends Positionable {
     abstract int getMaxAttackStrength();
 
     abstract Time getMaxAttackDuration();
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public boolean canAttack() {
+        return !State.ESCAPING.equals(getState()) && attackDuration.compareTo(getMaxAttackDuration()) <= 0;
+    }
+
+    public void escape(AnimalEnvironmentView env, Time dt) {
+        move(env, dt);
+        if (!env.isVisibleFromEnemies(this))
+            setState(State.IDLE);
+    }
+
+    public void fight(AnimalEnvironmentView env, Time dt) {
+        List<Animal> enemies = env.getVisibleEnemiesForAnimal(this);
+        if (!enemies.isEmpty()) {
+            Animal closest = Utils.closestFromPoint(this, enemies);
+            if (closest != null) {
+                closest.setState(State.ATTACK);
+                this.setState(State.ATTACK);
+                int damage = (int) UniformDistribution.getValue(getMinAttackStrength(), getMaxAttackStrength());
+                closest.hitpoints -= damage;
+                closest.attackDuration = closest.attackDuration.plus(dt);
+            } else {
+                escaping();
+            }
+        } else {
+            escaping();
+        }
+    }
+
+    private void escaping() {
+        this.attackDuration = Time.ZERO;
+        if (State.ATTACK.equals(this.getState()))
+            this.setState(State.ESCAPING);
+    }
 }

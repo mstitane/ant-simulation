@@ -63,8 +63,10 @@ public final class Termite extends Animal {
     }
 
     public void seekForEnemies(AntEnvironmentView env, Time dt) {
-        if (!isDead())
+        if (!isDead()) {
             move(env, dt);
+            fight(env, dt);
+        }
     }
 
     public RotationProbability computeRotationProbs(TermiteEnvironmentView env) {

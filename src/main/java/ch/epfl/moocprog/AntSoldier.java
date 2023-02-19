@@ -38,8 +38,10 @@ public final class AntSoldier extends Ant {
     }
 
     protected void seekForEnemies(AntEnvironmentView env, Time dt) {
-        if (!isDead())
+        if (!isDead()) {
             move(env, dt);
+            fight(env, dt);
+        }
     }
 
     @Override
