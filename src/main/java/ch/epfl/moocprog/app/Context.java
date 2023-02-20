@@ -1,17 +1,23 @@
 package ch.epfl.moocprog.app;
+import java.util.Objects;
+
 import ch.epfl.moocprog.config.ConfigManager;
 
 /**
  * Contexte de la simulation.
  */
 public final class Context {
-    private static Application THE_APP;
-    public static String CONFIG_PATH= Context.class.getResource("/app.cfg").getFile();
-    public static String INIT_PATH= Context.class.getResource("/config.cfg").getFile();
+
+    private Context() {
+    }
+
+    private static Application theApp;
+    public static final String CONFIG_PATH = Objects.requireNonNull(Context.class.getResource("/app.cfg")).getFile();
+    public static final String INIT_PATH = Objects.requireNonNull(Context.class.getResource("/config.cfg")).getFile();
 
     /*package*/
     static void initializeApplication(Application application) {
-        THE_APP = application;
+        theApp = application;
     }
 
     /**
@@ -20,11 +26,11 @@ public final class Context {
      * @return L'instance de l'application
      */
     public static Application getApplication() {
-        assert THE_APP != null;
-        return THE_APP;
+        assert theApp != null;
+        return theApp;
     }
     
     public static ConfigManager getConfig() {
-        return THE_APP.getConfigManager();
+        return theApp.getConfigManager();
     }
 }

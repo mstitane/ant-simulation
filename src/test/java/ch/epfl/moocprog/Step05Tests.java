@@ -23,9 +23,4 @@ public class Step05Tests {
     public static void init() {
         ApplicationInitializer.initializeApplication(new ImmutableConfigManager(new File(Objects.requireNonNull(Main.class.getResource("/app.cfg")).getFile())));
     }
-
-    @Test
-    void termiteTest() {
-
-    }
 }

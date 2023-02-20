@@ -209,12 +209,14 @@ public final class Environment implements FoodGeneratorEnvironmentView, AnimalEn
 
     @Override
     public List<Animal> getVisibleEnemiesForAnimal(Animal from) {
+        Utils.requireNonNull(from);
         double sightDistance = getConfig().getDouble(ANIMAL_SIGHT_DISTANCE);
         return animals.stream().filter(a -> a.isEnemy(from) && a.getPosition().toricDistance(from.getPosition()) <= sightDistance).collect(Collectors.toList());
     }
 
     @Override
     public boolean isVisibleFromEnemies(Animal from) {
+        Utils.requireNonNull(from);
         double sightDistance = getConfig().getDouble(ANIMAL_SIGHT_DISTANCE);
         return animals.stream().anyMatch(a -> a.isEnemy(from) && a.getPosition().toricDistance(from.getPosition()) <= sightDistance);
     }

@@ -79,6 +79,6 @@ public abstract class Ant extends Animal {
 
     @Override
     protected final boolean isEnemyDispatch(Ant other) {
-        return false;
+        return other.anthillId != this.anthillId;
     }
 }

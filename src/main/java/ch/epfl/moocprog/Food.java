@@ -13,7 +13,7 @@ public final class Food extends Positionable {
     }
 
     public double takeQuantity(double quantity) {
-        double taken = 0.0;
+        double taken;
         if (quantity < 0)
             throw new IllegalArgumentException("quantity must be positive");
         if (this.quantity - quantity > 0) {

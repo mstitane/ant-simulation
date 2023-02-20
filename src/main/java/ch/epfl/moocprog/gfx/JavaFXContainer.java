@@ -114,12 +114,12 @@ public final class JavaFXContainer extends javafx.application.Application {
 	 */
 	private Map<String, Boolean> makeDebuStructure() {
 		HashMap<String, Boolean> map = new HashMap<String, Boolean>();
-		map.put("Position: ", Boolean.valueOf("false"));
-		map.put("Speed: ", Boolean.valueOf("false"));
-		map.put("HitPoints: ", Boolean.valueOf("false"));
-		map.put("LifeSpan: ", Boolean.valueOf("false"));
-		map.put("State: ", Boolean.valueOf("false"));
-		map.put("Quantity: ", Boolean.valueOf("false"));
+		map.put("Position: ", Boolean.FALSE);
+		map.put("Speed: ", Boolean.FALSE);
+		map.put("HitPoints: ", Boolean.FALSE);
+		map.put("LifeSpan: ", Boolean.FALSE);
+		map.put("State: ", Boolean.FALSE);
+		map.put("Quantity: ", Boolean.FALSE);
 		return map;
 
 	}
@@ -383,22 +383,16 @@ public final class JavaFXContainer extends javafx.application.Application {
 
 		Button pause = new Button();
 		pause.textProperty().bind(pausePlayText);
-		pause.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				bPause = !bPause;
-				pausePlayText.setValue(bPause ? "Play " : "Pause");
-			}
+		pause.setOnAction(event -> {
+			bPause = !bPause;
+			pausePlayText.setValue(bPause ? "Play " : "Pause");
 		});
 
 		Button restart = new Button();
 		restart.textProperty().bind(restartText);
-		restart.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				gameLoop.stop();
-				startGame(stage);
-			}
+		restart.setOnAction(event -> {
+			gameLoop.stop();
+			startGame(stage);
 		});
 
 		// zoom implementation in progress
